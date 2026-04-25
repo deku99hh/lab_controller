@@ -1,31 +1,18 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 6000
+
+const mongoose = require('mongoose')
+const DBurl = 'mongodb+srv://omarrashed1000:bodo@learn-mango-db.ixz7ecc.mongodb.net/lab_controller_DB?appName=learn-mango-db'
+mongoose.connect(DBurl).then(()=>{
+    console.log('connected to db');
+})
 
 app.use(express.json())
 
-app.post('/clint', (req, res) => {
-    res.send('here')
-})
+const lab_router = require('./routes/routes.lab_controller')
 
-app.post('/clint/info', (req, res) => {
-    const clint = req.body
-    res.json(clint)
-    // update database with (clint)
-})
-
-app.get('/clint/info', (req, res) => {
-    res.json()
-    // sind all info in database
-})
-
-
-
-
-
-
-
-
+app.use('/', lab_router)
 
 
 

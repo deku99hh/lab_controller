@@ -1,25 +1,13 @@
 {
-    "lab1" : {
-        "pc1" : {
-            "macAddress" : "01:32:54:76:85:AB",
-            "lastChainge" : {
-                "mouce" : "2026-04-25 20:16:50",
-                "keyboard" : "2026-04-25 20:16:50",
-                "openedTab" : [ "youtube.com", "google.com", "cloud.mongodb.com", "neocities.org" ]
-            },
-            "timeOfBoot" : "2026-04-25 20:06:50",
-            "openTimeAllowed" : "2026-04-25 20:26:50"
-        },
-        "pc2" : {
-            "macAddress" : "01:36:54:76:85:AB",
-            "lastChainge" : {
-                "mouce" : "2026-04-25 20:16:50",
-                "keyboard" : "2026-04-25 20:16:50",
-                "openedTab" : null
-            },
-            "timeOfBoot" : "2026-04-25 20:06:50",
-            "openTimeAllowed" : null
-        }
-    }
+    "macAddress" : "01:32:54:76:85:AB",
+    "pcNumber" : 1,
+    "labNumber" : 1,
+    "status" : {
+        "mouce" : "2026-04-25 20:16:50",
+        "keyboard" : "2026-04-25 20:16:50",
+        "openedTab" : [ "youtube.com", "google.com", "cloud.mongodb.com", "neocities.org" ]
+    },
+    "timeOfBoot" : "2026-04-25 20:06:50",
+    "openTimeAllowed" : "2026-04-25 20:26:50",
+    "active": true
 }
-
