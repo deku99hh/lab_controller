@@ -73,6 +73,7 @@ const getAllInfo = async (req, res) => {
 const shutdownAPC =  (req, res) => {
     const lab = req.params.lab
     const pcId = req.params.pcId
+
     // numbers or "all"
     // res.json()
                                                         // do the shut down
@@ -89,7 +90,7 @@ const shutdownAllowence = async (req, res) => {
     // mongodb
     // res.send({states : true, time : "2024-07-23 08:00:00"})
 
-    const now = new Date().toISOString();
+    const now = new Date.now();
     // console.log(now); 
 
     const clintInDB = await PcsData.find(
