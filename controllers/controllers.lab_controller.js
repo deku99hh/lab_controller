@@ -93,7 +93,7 @@ const shutdownAllowence = async (req, res) => {
     const now = new Date.now();
     // console.log(now); 
 
-    const clintInDB = await PcsData.find(
+    const clintInDB = await PcsData.findOne(
         { pcNumber : pcNumber, labNumber : labNumber, macAddress : macAddress, }
     );
 
