@@ -37,7 +37,7 @@ const io = new Server(server, {
     cors: { origin: "*" } // عشان يسمح بالاتصال من أي مكان حالياً
 });
 
-const port = 6000;
+const port = 5000;
 
 // المانجو دي بي
 const DBurl = 'mongodb+srv://omarrashed1000:bodo@learn-mango-db.ixz7ecc.mongodb.net/lab_controller_DB?appName=learn-mango-db';
@@ -50,6 +50,9 @@ mongoose.connect(DBurl)
 
 
 app.use(express.json());
+const cors = require('cors');
+app.use(cors()); // قبل الـ routes
+
 
 // هنمرر الـ io للـ controller عشان يقدر يبعت رسايل
 const lab_controller = require('./controllers/controllers.lab_controller');

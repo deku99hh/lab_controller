@@ -1,32 +1,14 @@
-// ده الكلاينت بتاعك (client.js)
+const express = require('express');
 
-const checkInterval = 10000; // كل 10 ثواني
-let secondsActive = 0;
+const app = express();
+const port = 6010;
 
-console.log("--- نظام مراقبة المعمل بدأ العمل ---");
+app.use(express.json());
 
-// اللوب اللانهائي اللي أنت عايزه
-setInterval(() => {
-    secondsActive += 10;
-    console.log(`الجهاز شغال بقاله: ${secondsActive} ثانية`);
+app.get('/', (req, res) => {
+    res.send('working');
+})
 
-    // هنا هتحط الكود اللي بيجيب حالة الماوس والكيبورد (iohook)
-    const deviceStatus = {
-        mac: "00:1A:2B:3C:4D:5E", // الـ ID بتاع الجهاز
-        active: true, // هل الماوس اتحرك؟
-        time: secondsActive
-    };
-
-    // بتبعت الريكويست للسيرفر
-    // axios.post('http://server-ip:3000/client/info', deviceStatus)
-    // .then(res => {
-    //    if(res.data.command === 'shutdown') {
-    //        console.log("جاري إغلاق الجهاز بأمر من السيرفر...");
-    //        // كود الشات داون هنا
-    //    }
-    // });
-
-}, checkInterval);
-
-// السطر ده عشان البرنامج م يقفلش لو مفيش ريكويستات
-process.stdin.resume();
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server listening on port ${port}`);
+});

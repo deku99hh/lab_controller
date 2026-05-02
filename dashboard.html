@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>أحقر داشبورد في التاريخ</title>
+    <style>
+        body { 
+            background-color: yellow; 
+            color: blue; 
+            font-family: "Comic Sans MS", cursive, sans-serif; 
+            text-align: center;
+        }
+        table { 
+            border-collapse: separate; 
+            border-spacing: 10px; 
+            width: 90%; 
+            margin: 0 auto;
+            border: 8px dashed red; 
+            background-color: #ffccff;
+        }
+        th, td { 
+            border: 3px solid green; 
+            padding: 15px; 
+            font-weight: bold;
+        }
+        th { 
+            background-color: cyan; 
+            font-size: 24px; 
+        }
+        button { 
+            background-color: black; 
+            color: white; 
+            padding: 10px 20px; 
+            font-size: 18px;
+            cursor: pointer; 
+            border: 5px dotted purple; 
+        }
+        button:hover { 
+            background-color: red; 
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> داشبورد التحكم في المعامل </h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>رقم المعمل</th>
+                <th>رقم الجهاز</th>
+                <th>الـ MAC Address</th>
+                <th>آخر حركة ماوس</th>
+                <th>آخر حركة كيبورد</th>
+                <th>مسموح لحد الساعة</th>
+                <th>أكشن</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- الداتا هتنزل هنا بالـ JS -->
+        </tbody>
+    </table>
+
+    <script>
+        // لو كنت غيرت البورت لـ 5000 زي ما اتفقنا، سيبه 5000، لو لسة 6000 غيره
+        const SERVER_URL = 'http://127.0.0.1:5000'; 
+
+        // دالة بتجيب الداتا من السيرفر
+        async function fetchData() {
+            try {
+                const response = await fetch(`${SERVER_URL}/clint/info`);
+                const data = await response.json();
+                renderTable(data);
+            } catch (err) {
+                console.error("مش قادر أوصل للسيرفر:", err);
+            }
+        }
+
+        // دالة بترسم الجدول بالداتا
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = ''; // بنفضي الجدول القديم عشان نحط الجديد
+
+            data.forEach(pc => {
+                // تظبيط شكل الوقت عشان يبقى مقروء
+                const mouseTime = new Date(pc.status.mouce).toLocaleTimeString();
+                const keyboardTime = new Date(pc.status.keyboard).toLocaleTimeString();
+                const allowedTime = pc.openTimeAllowed ? new Date(pc.openTimeAllowed).toLocaleTimeString() : 'مش محدد';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${pc.labNumber}</td>
+                    <td>${pc.pcNumber}</td>
+                    <td>${pc.macAddress}</td>
+                    <td>${mouseTime}</td>
+                    <td>${keyboardTime}</td>
+                    <td>${allowedTime}</td>
+                    <td>
+                        <button onclick="shutdownPC(${pc.labNumber}, ${pc.pcNumber})">SHUTDOWN</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // دالة بتبعت أمر القفل للسيرفر
+        async function shutdownPC(lab, pcId) {
+            try {
+                await fetch(`${SERVER_URL}/clint/shutdown/${lab}/${pcId}`, { 
+                    method: 'POST' 
+                });
+                alert(`أمر القفل اتبعت لجهاز ${pcId} في معمل ${lab} `);
+            } catch(err) {
+                alert("حصلت مشكلة في إرسال أمر القفل!");
+            }
+        }
+
+        // شغل الدالة أول ما الصفحة تفتح
+        fetchData();
+
+        // خليها تعمل ريفريش للداتا كل 5 ثواني
+        setInterval(fetchData, 5000);
+
+    </script>
+</body>
+</html>
